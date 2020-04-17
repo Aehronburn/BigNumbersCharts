@@ -7,32 +7,62 @@
     ></script>
   </head>
   <body>
-    <canvas id="grafico" width="500" height="500"></canvas>
+    <div style="width:75%;">
+      <canvas id="grafico"></canvas>
+    </div>
+   
     <script>
-      var n_prove = 10000;
-      var lista_random = [];
-      for (var i = 0; i < n_prove; i++) {
-        if (i % 100 == 0) {
-          lista_random.push(Math.floor(Math.random() * 6 + 1));
+      var n_prove = 10000; 
+      var differenza = [];
+      var lista_x = [];
+      var intervallo_x = 100;
+      var min_y = -50;
+      var max_y = 50;
+      var n_pari = 0;
+      for (var i = 0; i <= n_prove; i++) {
+        if((Math.floor(Math.random() * 6 + 1)%2==0)){
+            n_pari += 1;
+            
+        }
+        
+        if (i % intervallo_x == 0) {
+          differenza.push(n_pari-(i/2));
+          lista_x.push(i);
         }
       }
-
+      console.log(n_pari);
       var canvas = document.getElementById("grafico").getContext("2d");
       var grafico = new Chart(canvas, {
         type: "line",
         data: {
-          labels: [0, 1, 2],
+          labels: lista_x,
           datasets: [
             {
-              label: "numeri",
-              data: lista_random,
+              label: "differenza",
+              data: differenza,
             },
           ],
         },
-        option: {
-          responsive: true,
-          maintainAspectRatio: false,
-        },
+        options: {
+           scales: {
+              yAxes: [{
+                ticks: {
+         
+                  min: min_y,
+                  max: max_y,
+          
+                }
+              }],
+              xAxes: [{
+                ticks: {
+                  min: 0,
+                  max: n_prove,
+                  stepSize: 1000
+              }
+              }]
+          } 
+         }
+        
       });
     </script>
   </body>

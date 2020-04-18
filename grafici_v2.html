@@ -72,7 +72,12 @@
         
         if (i % intervallo_x == 0) {
           differenza.push(n_pari-(i/2));
-          errore.push(Math.round(((n_pari-(i/2))/i)*100*100)/100);
+          if(i!=0){
+            errore.push(Math.round(((n_pari-(i/2))/i)*100*100)/100);
+          }else{
+            errore.push(0);
+          }
+          
         
           lista_x.push(i);
         }

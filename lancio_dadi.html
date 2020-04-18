@@ -1,0 +1,161 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <form>
+        <div>
+            <label>Numero prove</label>
+            <input type="text" id="n_prove" />
+
+
+            <label>Step</label>
+            <input type="text" id="step" />
+
+            <input type="button" value="mostra" onclick="disegnaGrafici();" />
+        </div>
+
+    </form>
+    <div style="width:100%;">
+        <canvas id="grafico"></canvas>
+    </div>
+    <script>
+        var canvas = document.getElementById("grafico").getContext("2d");
+        var grafico;
+
+        function disegnaGrafici() {
+
+            if (grafico != null) {
+
+                grafico.destroy();
+
+            }
+
+            var numero_lanci = document.getElementById("n_prove").value;
+            var step = document.getElementById("step").value;
+            console.log("numero_lanci");
+            console.log(numero_lanci);
+
+            var lista_x = [];
+
+            var array = [ // index [0] = dado '1' , index[1] = dado '2' , index[2] = dado '3' ....
+                0, 0, 0, 0, 0, 0
+            ];
+
+            var dado_matrix_per100 = [
+                [], [], [], [], [], []
+            ];
+
+            for (var i = 0; i <= numero_lanci; i++) {
+                var numero_uscito = Math.floor(Math.random() * 6 + 1);
+                array[numero_uscito - 1] += 1;
+
+                if (i % step == 0) {
+                    lista_x.push(i);
+                    for (var a = 0; a < 6; a++) {
+                        if (i != 0)
+                            dado_matrix_per100[a].push(Math.round(array[a] / i * 1000) / 1000);
+                        else {
+                            dado_matrix_per100[a].push(0);
+                        }
+                    }
+                }
+            }
+            console.log(array); //per ogni valore del dado stampa quante volte è uscito
+            console.log(dado_matrix_per100); //per ogni intervallo_x e per ogni valore del dado stampa la probabilità 
+
+            //primo grafico <--inizia-->
+
+            grafico = new Chart(canvas, {
+                type: "line",
+                data: {
+                    labels: lista_x,
+                    datasets: [
+                        {
+                            label: "1",
+                            data: dado_matrix_per100[0],
+                            borderColor: [
+                                "#00ff00",
+
+                            ],
+                            fill: false,
+                        },
+                        {
+                            label: "2",
+                            data: dado_matrix_per100[1],
+                            borderColor: [
+                                "#ff3333",
+
+                            ],
+                            fill: false,
+                        },
+                        {
+                            label: "3",
+                            data: dado_matrix_per100[2],
+                            borderColor: [
+                                "#4d4dff",
+
+                            ],
+                            fill: false,
+                        },
+                        {
+                            label: "4",
+                            data: dado_matrix_per100[3],
+                            borderColor: [
+                                "#ffff80",
+
+                            ],
+                            fill: false,
+                        },
+                        {
+                            label: "5",
+                            data: dado_matrix_per100[4],
+                            borderColor: [
+                                "#ff66ff",
+
+                            ],
+                            fill: false,
+                        },
+                        {
+                            label: "6",
+                            data: dado_matrix_per100[5],
+                            borderColor: [
+                                "#99ddff",
+
+                            ],
+                            fill: false,
+                        },
+                    ],
+                },
+                options: {
+
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+
+                                //min: min_y,
+                                //max: max_y,
+
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                min: 0,
+                                max: numero_lanci,
+                                stepSize: 1000
+                            }
+                        }]
+                    }
+                }
+
+            });//<--fine-->
+
+        }
+
+    </script>
+</body>
+
+</html>

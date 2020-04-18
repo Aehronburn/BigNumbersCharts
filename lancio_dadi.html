@@ -3,10 +3,44 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" type="text/javascript"></script>
+    <style>
+        body {
+            font-family: Helvetica;
+        }
+
+        label {
+            font-size: 12;
+            color: #666;
+            font-weight: bolder;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            height: 5px;
+            width: 20%;
+            background: rgba(54, 162, 235, 0.2);
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            border: 2px solid rgba(54, 162, 235, 0.2);
+            height: 20px;
+            width: 20px;
+            border-radius: 20px;
+            background: #fff;
+            margin-top: 0;
+            cursor: pointer;
+        }
+
+        input[type="range"]:focus {
+            outline: none;
+        }
+    </style>
 </head>
 
-<body>
-    <form>
+
+<body onload="updateValue();disegnaGrafici();">
+    <!--<form>
         <div>
             <label>Numero prove</label>
             <input type="text" id="n_prove" />
@@ -21,11 +55,30 @@
     </form>
     <div style="width:100%;">
         <canvas id="grafico"></canvas>
+    </div>-->
+    <form style="text-align: center; margin-top: 4%;">
+        <label for="n_prove" id="lbl1">numero prove</label>
+        <input type="range" min="100" max="100000" value="1000" step="100" id="n_prove"
+            onchange="updateValue();disegnaGrafici()" />
+        <label for="step" id="lbl2">step</label>
+        <input type="range" min="10" max="10000" value="100" step="10" id="step"
+            onchange="updateValue();disegnaGrafici()" />
+    </form>
+
+    <div style="width: 80%; padding: 2%;">
+        <canvas id="grafico"></canvas>
     </div>
+
+
     <script>
         var canvas = document.getElementById("grafico").getContext("2d");
         var grafico;
-
+        function updateValue() {
+            document.getElementById("lbl1").innerHTML =
+                "numero prove: " + document.getElementById("n_prove").value;
+            document.getElementById("lbl2").innerHTML =
+                "step: " + document.getElementById("step").value;
+        }
         function disegnaGrafici() {
 
             if (grafico != null) {
@@ -75,7 +128,7 @@
                     labels: lista_x,
                     datasets: [
                         {
-                            label: "1",
+                            label: "uno",
                             data: dado_matrix_per100[0],
                             borderColor: [
                                 "#00ff00",
@@ -84,7 +137,7 @@
                             fill: false,
                         },
                         {
-                            label: "2",
+                            label: "due",
                             data: dado_matrix_per100[1],
                             borderColor: [
                                 "#ff3333",
@@ -93,7 +146,7 @@
                             fill: false,
                         },
                         {
-                            label: "3",
+                            label: "tre",
                             data: dado_matrix_per100[2],
                             borderColor: [
                                 "#4d4dff",
@@ -102,7 +155,7 @@
                             fill: false,
                         },
                         {
-                            label: "4",
+                            label: "quattro",
                             data: dado_matrix_per100[3],
                             borderColor: [
                                 "#ffff80",
@@ -111,7 +164,7 @@
                             fill: false,
                         },
                         {
-                            label: "5",
+                            label: "cinque",
                             data: dado_matrix_per100[4],
                             borderColor: [
                                 "#ff66ff",
@@ -120,7 +173,7 @@
                             fill: false,
                         },
                         {
-                            label: "6",
+                            label: "sei",
                             data: dado_matrix_per100[5],
                             borderColor: [
                                 "#99ddff",
@@ -131,7 +184,11 @@
                     ],
                 },
                 options: {
-
+                    
+                    title: {
+                        display: true,
+                        text: "rapporto tra casi favorevoli e casi totali",
+                    },
                     scales: {
                         yAxes: [{
                             ticks: {

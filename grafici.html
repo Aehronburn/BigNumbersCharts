@@ -1,5 +1,5 @@
 <html>
-<<<<<<< HEAD
+
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script
@@ -89,7 +89,7 @@
         cambia
       </button>
     </form>-->
-<<<<<<< HEAD
+
     <form style="text-align: center; margin-top: 4%;">
       <label for="n_prove" id="lbl1">numero prove</label>
       <input
@@ -149,7 +149,7 @@
             errore.push(Math.round(((n_pari - i / 2) / i) * 100 * 100) / 100);
             lista_x.push(i);
           }
-=======
+		</script>
   <form style="text-align: center; margin-top: 4%;">
     <label for="n_prove" id="lbl1">numero prove</label>
     <input type="range" min="100" max="100000" value="1000" step="100" id="n_prove"
@@ -204,11 +204,11 @@
             errore.push(0);
           }
           lista_x.push(i);
->>>>>>> 85a2aa6d9704ec6d9141d1af557dd07f19ed54bd
+
         }
         return { differenza, errore, lista_x };
       }
-<<<<<<< HEAD
+
       function disegnaGrafici() {
         var data = calcolaRandom();
         //inizio primo grafico
@@ -298,114 +298,10 @@
         });
       }
     </script>
-  </body>
-</html>
-=======
-      return { differenza, errore, lista_x };
-    }
-    function disegnaGrafici() {
+ 
 
-      //distrugge i grafici vecchi <-inizio->
-      if (grafico1 != null) {
-        grafico1.destroy();
-
-      }
-      if (grafico2 != null) {
-        grafico2.destroy();
-
-      }
-      //distrugge i grafici vecchi <-fine->
-
-
-      var data = calcolaRandom();
-      //inizio primo grafico
-      //var canvas = document.getElementById("grafico").getContext("2d");
-      grafico1 = new Chart(canvas1, {
-        type: "line",
-        data: {
-          labels: data.lista_x,
-          datasets: [
-            {
-              label: "differenza",
-              data: data.differenza,
-              borderColor: "rgba(75, 192, 192, 1)",
-              fill: true,
-            },
-          ],
-        },
-        options: {
-          maintainAspectRatio: false,
-          title: {
-            display: true,
-            text: "differenza tra numeri pari e lanci totali",
-          },
-          scales: {
-            yAxes: [
-              {
-                ticks: {
-                  // min: min_y,
-                  // max: max_y,
-                },
-              },
-            ],
-            xAxes: [
-              {
-                ticks: {
-                  min: 0,
-                  max: n_prove,
-                  stepSize: 1000,
-                },
-              },
-            ],
-          },
-        },
-      });
-
-      //inizio secondo grafico
-      //var canvas = document.getElementById("grafico2").getContext("2d");
-      grafico2 = new Chart(canvas2, {
-        type: "line",
-        data: {
-          labels: data.lista_x,
-          datasets: [
-            {
-              label: "errore",
-              data: data.errore,
-              borderColor: "rgba(153, 102, 255, 1)",
-              fill: true,
-            },
-          ],
-        },
-        options: {
-          maintainAspectRatio: false,
-          title: {
-            display: true,
-            text: "errore % della differenza",
-          },
-          scales: {
-            yAxes: [
-              {
-                ticks: {
-                  //min: -4,
-                  //max: 4,
-                },
-              },
-            ],
-            xAxes: [
-              {
-                ticks: {
-                  min: 0,
-                  max: n_prove,
-                  stepSize: 1000,
-                },
-              },
-            ],
-          },
-        },
-      });
-    }
-  </script>
+ 
 </body>
 
 </html>
->>>>>>> 85a2aa6d9704ec6d9141d1af557dd07f19ed54bd
+

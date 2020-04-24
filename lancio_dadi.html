@@ -1,0 +1,218 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" type="text/javascript"></script>
+    <style>
+        body {
+            font-family: Helvetica;
+        }
+
+        label {
+            font-size: 12;
+            color: #666;
+            font-weight: bolder;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            height: 5px;
+            width: 20%;
+            background: rgba(54, 162, 235, 0.2);
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            border: 2px solid rgba(54, 162, 235, 0.2);
+            height: 20px;
+            width: 20px;
+            border-radius: 20px;
+            background: #fff;
+            margin-top: 0;
+            cursor: pointer;
+        }
+
+        input[type="range"]:focus {
+            outline: none;
+        }
+    </style>
+</head>
+
+
+<body onload="updateValue();disegnaGrafici();">
+    <!--<form>
+        <div>
+            <label>Numero prove</label>
+            <input type="text" id="n_prove" />
+
+
+            <label>Step</label>
+            <input type="text" id="step" />
+
+            <input type="button" value="mostra" onclick="disegnaGrafici();" />
+        </div>
+
+    </form>
+    <div style="width:100%;">
+        <canvas id="grafico"></canvas>
+    </div>-->
+    <form style="text-align: center; margin-top: 4%;">
+        <label for="n_prove" id="lbl1">numero prove</label>
+        <input type="range" min="100" max="100000" value="1000" step="100" id="n_prove"
+            onchange="updateValue();disegnaGrafici()" />
+        <label for="step" id="lbl2">step</label>
+        <input type="range" min="10" max="1000" value="100" step="10" id="step"
+            onchange="updateValue();disegnaGrafici()" />
+    </form>
+
+    <div style="width: 80%; padding: 2%;">
+        <canvas id="grafico"></canvas>
+    </div>
+
+
+    <script>
+        var canvas = document.getElementById("grafico").getContext("2d");
+        var grafico;
+        function updateValue() {
+            document.getElementById("lbl1").innerHTML =
+                "numero prove: " + document.getElementById("n_prove").value;
+            document.getElementById("lbl2").innerHTML =
+                "step: " + document.getElementById("step").value;
+        }
+        function disegnaGrafici() {
+
+            if (grafico != null) {
+
+                grafico.destroy();
+
+            }
+
+            var numero_lanci = document.getElementById("n_prove").value;
+            var step = document.getElementById("step").value;
+            console.log("numero_lanci");
+            console.log(numero_lanci);
+
+            var lista_x = [];
+
+            var array = [ // index [0] = dado '1' , index[1] = dado '2' , index[2] = dado '3' ....
+                0, 0, 0, 0, 0, 0
+            ];
+
+            var dado_matrix_per100 = [
+                [], [], [], [], [], []
+            ];
+
+            for (var i = 0; i <= numero_lanci; i++) {
+                var numero_uscito = Math.floor(Math.random() * 6 + 1);
+                array[numero_uscito - 1] += 1;
+
+                if (i % step == 0) {
+                    lista_x.push(i);
+                    for (var a = 0; a < 6; a++) {
+                        if (i != 0)
+                            dado_matrix_per100[a].push(Math.round(array[a] / i * 1000) / 1000);
+                        else {
+                            dado_matrix_per100[a].push(0);
+                        }
+                    }
+                }
+            }
+            console.log(array); //per ogni valore del dado stampa quante volte è uscito
+            console.log(dado_matrix_per100); //per ogni intervallo_x e per ogni valore del dado stampa la probabilità 
+
+            //primo grafico <--inizia-->
+
+            grafico = new Chart(canvas, {
+                type: "line",
+                data: {
+                    labels: lista_x,
+                    datasets: [
+                        {
+                            label: "uno",
+                            data: dado_matrix_per100[0],
+                            borderColor: [
+                                "#00ff00",
+
+                            ],
+                            fill: false,
+                        },
+                        {
+                            label: "due",
+                            data: dado_matrix_per100[1],
+                            borderColor: [
+                                "#ff3333",
+
+                            ],
+                            fill: false,
+                        },
+                        {
+                            label: "tre",
+                            data: dado_matrix_per100[2],
+                            borderColor: [
+                                "#4d4dff",
+
+                            ],
+                            fill: false,
+                        },
+                        {
+                            label: "quattro",
+                            data: dado_matrix_per100[3],
+                            borderColor: [
+                                "#ffff80",
+
+                            ],
+                            fill: false,
+                        },
+                        {
+                            label: "cinque",
+                            data: dado_matrix_per100[4],
+                            borderColor: [
+                                "#ff66ff",
+
+                            ],
+                            fill: false,
+                        },
+                        {
+                            label: "sei",
+                            data: dado_matrix_per100[5],
+                            borderColor: [
+                                "#99ddff",
+
+                            ],
+                            fill: false,
+                        },
+                    ],
+                },
+                options: {
+                    
+                    title: {
+                        display: true,
+                        text: "rapporto tra casi favorevoli e casi totali",
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+
+                                //min: min_y,
+                                //max: max_y,
+
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                min: 0,
+                                max: numero_lanci,
+                                stepSize: 1000
+                            }
+                        }]
+                    }
+                }
+
+            });//<--fine-->
+
+        }
+
+    </script>
+</body>
+
+</html>
